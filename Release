@@ -178,7 +178,7 @@ local RootPart = Player.Character.HumanoidRootPart
 
 local library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Makesdri/uiLIB/main/UI-LIB'))()
 
-local Window = library:CreateWindow("TPS Scripts", "Version:2.3", 6035053302)
+local Window = library:CreateWindow("TPS Scripts", "Version:2.3", 10044538000)
 
 local Tab = Window:CreateTab("Scripts")
 
@@ -1004,4 +1004,4 @@ end)
 
 CRPage:CreateLabel("Scripts e Funções: Criado por SKinny")
 CRPage:CreateLabel("UI Library: Vanis UI Library")
-CRPage:CreateLabel("Ultima Atualização: 21.10.23")
+CRPage:CreateLabel("Ultima Atualização: 29.10.23")
