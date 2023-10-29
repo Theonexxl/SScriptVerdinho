@@ -178,18 +178,24 @@ local RootPart = Player.Character.HumanoidRootPart
 
 local library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Makesdri/uiLIB/main/UI-LIB'))()
 
-local Window = library:CreateWindow("TPS Scripts", "Version:2.3", 10044538000)
+local Window = library:CreateWindow("TPS Scripts", "Version:2.5 Release", 10044538000)
 
 local Tab = Window:CreateTab("Scripts")
 
-local SPage = Tab:CreateFrame("Funções")
+local FPage = Tab:CreateFrame("Funções")
 local LPPage = Tab:CreateFrame("LocalPlayer")
 local BPage = Tab:CreateFrame("Ball")
 local MRPage = Tab:CreateFrame("Mobile Reach")
 local TPPage = Tab:CreateFrame("Teleports")
-local CRPage = Tab:CreateFrame("Créditos")
+local CRPage = Tab:CreateFrame("Credits")
 
-SPage:CreateToggle("Auto-Rasteira", "Rasteira infinita [Persiste se morrer]",function (arg)
+FPage:CreateToggle("Infinite Yield", "Irá ter comandos de Admin" function(arg)
+if arg then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+end
+end)
+
+FPage:CreateToggle("Auto-Rasteira", "Irá ter rasteira infinita [Persiste se Morrer]" function(arg)
 if arg then
 _G.HoldGround = true
 while _G.HoldGround do
@@ -199,12 +205,12 @@ end
     
     else
         _G.HoldGround = false
-        wait(0.1)
+        wait(1)
         game:GetService("Players").LocalPlayer.Backpack.Ground.Value = false
 end
 end)
 
-SPage:CreateToggle("Parar a Bola", "Irá para a bola até que você morra [Precisa estar perto dela]", function (arg)
+FPage:CreateToggle("Stopp Ball","Irá para a bola para sempre [Precisa estar perto dela, Se morrer Ative Novamente]" function(arg)
 if arg then
 _G.StopBall = true
 while _G.StopBall do
@@ -224,15 +230,40 @@ end
 end
 end)
 
-SPage:CreateToggle("Infinite Yield", "Comandos de Admin", function (arg)
-if arg then
-loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end
-end)
-
 LPPage:CreateLabel("Miscellaneous")
 
-LPPage:CreateButton("Rejoin", "Sai e entra no mesmo Servidor", function()
+LPPage:CreateButton("Invisible [R15]", "Irá ficar invisível sendo R15", function()
+    --// REMOVE BILLBOARDGUI NAME, LEVEL AND INFORMATION --\\
+
+for i,v in pairs(game.Players.LocalPlayer.Character.Head:GetChildren()) do
+       if v:IsA("BillboardGui") then
+           v:Destroy()
+       end
+   end
+   
+--// VARIABLES, SERVICES --\\
+
+local HRP = game.Players.LocalPlayer.Character.HumanoidRootPart
+local LT = game.Players.LocalPlayer.Character.LowerTorso
+local OldCF = HRP.CFrame
+
+--// SCRIPTING --\\
+if game.Players.LocalPlayer.Character.PrimaryPart ~= HRP then
+    game.Players.LocalPlayer.Character.PrimaryPart = HRP
+end
+
+
+local NewRootMotor6D = LT:FindFirstChild("Root"):Clone()
+HRP.Parent = game.Workspace
+game.Players.LocalPlayer.Character.PrimaryPart = HRP
+game.Players.LocalPlayer.Character:MoveTo(Vector3.new(OldCF.X, 9e9, OldCF.Z))
+HRP.Parent = game.Players.LocalPlayer.Character
+wait(0.45)
+NewRootMotor6D.Parent = HRP
+HRP.CFrame = OldCF
+end)
+
+LPPage:CreateButton("Rejoin The Server", "Sai e entra no mesmo Servidor", function()
     local plr = game.Players.LocalPlayer
 
 game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, plr)
@@ -253,60 +284,20 @@ LPPage:CreateSlider("Altura do Pulo", 0, 500,function(arg)
    game.Players.LocalPlayer.Character.Humanoid.JumpPower = arg
 end)
 
-LPPage:CreateButton("Velocidade Padrão", "Coloca sua velocidade no padrão do jogo (22)", function()
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 22
-end)
-
-LPPage:CreateButton("Pulo Normal", "Coloca o seu Pulo no tamanho normal (50)", function()
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
-end)
-
 LPPage:CreateLabel("Times")
-
-LPPage:CreateToggle("Fake Blue Team", "Mostra um círculo azul acima de sua cabeça", function(arg)
-if arg then
-_G.FB = true
-    while _G.FB do
-    wait()
-    game.Workspace.FE.PlayerTeam.RemoteEventB:FireServer()  
-    end
-    else
-    _G.FB = false
-end
-end)
-
-LPPage:CreateToggle("Fake Red Team", "Mostra um círculo vermelho acima de sua cabeça", function(arg)
-if arg then
-_G.FR = true
-    while _G.FR do
-    wait()
-    game.Workspace.FE.PlayerTeam.RemoteEventR:FireServer()  
-    end
-    else
-    _G.FR = false
-end
-end)
-
-LPPage:CreateButton("Remover BillboardGui", "Remove nome de usuário, nível e círculo vermelho/azul acima de sua cabeça" function ()
- for i,v in pairs(game.Players.LocalPlayer.Character.Head:GetChildren()) do
-       if v:IsA("BillboardGui") then
-           v:Destroy()
-       end
-   end
-end)
 
 LPPage:CreateButton("Entrar no Time Azul", "Irá entrar no time azul mesmo estando cheio", function()
     local Event = game:GetService("Workspace").FE.CTeamColor.RemoteEventB
 Event:FireServer()
 end)
 
-LPPage:CreateButton("Entrar no Time Vermelho", "Irá entrar no time vermelho mesmo estando cheio", function()
+LPPage:CreateButton("Entrar no Time Vermelho", "Irá entrar no time azul mesmo estando cheio", function()
     local Event = game:GetService("Workspace").FE.CTeamColor.RemoteEventR
 Event:FireServer()
 end)
 
-LPPage:CreateLabel("Reach PC")
-LPPage:CreateLabel("Recomendado Usar entre 3-5")
+LPPage:CreateLabel("Reach [PC]")
+local RunStepped
 
 LPPage:CreateToggle("Reach", "Ativar Reach", function(arg)
 if arg then
@@ -340,17 +331,17 @@ RunStepped:Disconnect()
 end
 end)
 
-LPPage:CreateSlider("Distância do Reach", 0, 10,function(arg)
+LPPage:CreateSlider("Reach Distance", 0, 10,function(arg)
    DistanceReach = arg
 end)
 
 LPPage:CreateLabel("Configurações")
 
-LPPage:CreateBox("Replicar Lag e Ping (Use entre 0.01 e 0.02 para skills)",10044538000, function(arg)
+LPPage:CreateBox("Replicar Lag-Ping [Use 0.01 or 0.02 Para Skills]", 10044538000, function(arg)
 settings():GetService("NetworkSettings").IncomingReplicationLag = tonumber(arg)
 end)
 
-LPPage:CreateLabel("Modificar Level e XP")
+LPPage:CreateLabel("Alterar Level e XP")
 LPPage:CreateLabel("Se sair do jogo terá que por novamente")
 
 LPPage:CreateBox("Level", 10044538000, function(arg)
@@ -426,7 +417,7 @@ wait(.5)
 game:GetService("Workspace").FE.Store.Check:FireServer()
 end)
 
-LPPage:CreateButton("Desbloquear Todas as Animações", "Todas as Animação do Jogo", function()
+LPPage:CreateButton("Desbloquear animações", "Desbloqueia todas as Animações do Jogo", function()
     game:GetService("Players").LocalPlayer.PlayerGui.Start.GamePassMenu.Items.CelebrationPack1.Tick.Visible = true
     game:GetService("Players").LocalPlayer.PlayerGui.Start.GamePassMenu.Items.CelebrationPack1.CelebrationPack1.Style = "RobloxRoundButton"
         game:GetService("Players").LocalPlayer.PlayerGui.Start.GamePassMenu.Items.CelebrationPack2.Tick.Visible = true
@@ -616,7 +607,7 @@ game:GetService("Players").LocalPlayer.PlayerGui.Start.Celebrations.Celebrations
 end)
 end)
 
-LPPage:CreateToggle("Fire Azul", "Te dá o Fire Azul", function(arg)
+LPPage:CreateToggle("Fire Azul", "Te dá o Fire Azul.", function(arg)
 if arg then
 game:GetService("Players").LocalPlayer.PlayerGui.Start.GamePassMenu.Items.BlueFlame.Tick.Visible = true
     game:GetService("Players").LocalPlayer.PlayerGui.Start.GamePassMenu.Items.BlueFlame.BlueFlame.Style = "RobloxRoundButton"
@@ -671,7 +662,6 @@ end)
     end
 end)
 
-
 LPPage:CreateToggle("Faster Cooldown", "Reduz o Cooldown do Fire em 50% (30)", function(arg)
 if arg then
 game:GetService("Players").LocalPlayer.PlayerGui.Start.GamePassMenu.Items.Cooldown.Tick.Visible = true
@@ -684,59 +674,7 @@ game:GetService("Players").LocalPlayer.PlayerGui.Start.GamePassMenu.Items.Cooldo
     end
 end)
 
-local AnimationTackleLoop
-
 BPage:CreateLabel("Miscellaneous")
-
-BPage:CreateToggle("Trail", "Coloca Trail Na bola", function(arg)
-if arg then
-game.Workspace.TPSSystem.TPS.Trail.Enabled = true
-    
-    else
-        game.Workspace.TPSSystem.TPS.Trail.Enabled = false
-end
-end)
-
-BPage:CreateToggle("Bola Colorida", "Deixa a Bola colorida (RGB)", function(arg)
-if arg then
-local Brick = workspace.TPSSystem.TPS --Change To Brick
-local speed = 10 --Change to speed you want
-_G.RAIN = true
-while _G.RAIN do
-	for i = 0,1,0.001*speed do
-		Brick.Color = Color3.fromHSV(i,1,1) --creates a color using i
-		wait()
-	end
-end
-    else
-        _G.RAIN = false
-        wait(3.3)
-        workspace.TPSSystem.TPS.Color = Color3.fromRGB(248, 248, 248) --creates a color using i
-end
-end)
-
-BPage:CreateToggle("Trail Colorida", "Pegue a Trail Colorida", function(arg)
-if arg then
-local speed = 15 --Change to speed you want
-_G.RANB = true
-while _G.RANB do
-	for i = 0,1,0.001*speed do
-		local startColor = Color3.fromHSV(i, 1, 1)
-local endColor = Color3.fromHSV(i, 1, 1)
-local sequence = ColorSequence.new(startColor, endColor)
-game.Workspace.TPSSystem.TPS.Trail.Color = sequence
-wait()
-	end
-end
-    else
-        _G.RANB = false
-        wait(3.3)
-        local startColor = Color3.fromRGB(255, 255, 255)
-local endColor = Color3.fromRGB(255, 255, 255)
-local sequence = ColorSequence.new(startColor, endColor)
-game.Workspace.TPSSystem.TPS.Trail.Color = sequence
-end
-end)
 
 BPage:CreateLabel("Aumentar/Diminuir Tamanho da Bola")
 
@@ -744,7 +682,7 @@ BPage:CreateBox("Aumentar/Diminuir", 10044538000, function(arg)
     game.Workspace.TPSSystem.TPS.Size = Vector3.new(arg, arg, arg)
 end)
 
-BPage:CreateToggle("Melhor React", "Te dá um React Melhor", function(arg)
+BPage:CreateToggle("React 1", "Te dá um React Melhor", function(arg)
 if arg then
 RunStepped2 = game:GetService("RunService").RenderStepped:Connect(function()
 if game.Players.LocalPlayer.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 then
@@ -776,6 +714,7 @@ else
 RunStepped2:Disconnect()
 end
 end)
+
 
 BPage:CreateToggle("React 2","Método melhor que o acima (Versão Beta)", function(arg)
 if arg then
@@ -810,7 +749,8 @@ if arg then
         end
     end)
     
-BPage:CreateToggle("Colisão", "Colocar/Tirar Colisão da Bola", function(arg)
+
+BPage:CreateToggle("Colisão", "Aticar/Desativar colisão da Bola", function(arg)
 if arg then
 game.Workspace.TPSSystem.TPS.CanCollide = false
 else
@@ -818,40 +758,9 @@ game.Workspace.TPSSystem.TPS.CanCollide = true
 end
 end)
 
-BPage:CreateToggle("Ver a Bola", "Espectar a Bola", function(arg)
-if arg then
-game.Workspace.CurrentCamera.CameraSubject = game.Workspace.TPSSystem.TPS
-    else
-	game.Workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character
-    end
-end)
-
-BPage:CreateButton("Remover Texturas", "Remove Todas as Texturas da Bola", function()
-     local Ball = game.Workspace.TPSSystem.TPS
-local Player = game.Players.LocalPlayer
-local HRP = Player.Character.HumanoidRootPart
-local RightLeg, LeftLeg = Player.Character["Right Leg"], Player.Character["Left Leg"]
-
-for i,BallCON in pairs(Ball:GetChildren()) do
-    if BallCON:IsA("Decal") or BallCON:IsA("Smoke") or BallCON:IsA("PointLight") or BallCON:IsA("ParticleEmitter") then
-       BallCON:Destroy()
-    end
-end
-
-for i,BALLFIRE in pairs(Ball:GetChildren()) do
-    if BALLFIRE:IsA("Fire") then
-       BALLFIRE.Heat = 1
-       BALLFIRE.Size = 5
-    end
-end
-
-Ball.Massless = true
-Ball.CustomPhysicalProperties = false
-end)
-
-MRPage:CreateLabel("Mobile Reach [Não Use se For PC]")
-MRPage:CreateLabel("Se não funcionar irei arrumar depois")
-MRPage:CreateLabel("Reach:Método 1")
+MRPage:CreateLabel("Mobile Reach [Use apenas Se for PC]")
+MRPage:CreateLabel("Status:Funcionando")
+MRPage:CreateLabel("Reach: Método 1")
 local RunSteppedMobile
 local DistanceReachMobile = 0
 
@@ -883,8 +792,7 @@ firetouchinterest(game.Players.LocalPlayer.Character["LeftLowerLeg"], game.Works
 			end)
 end)
 
-
-MRPage:CreateButton("Desativar Reach", "Irá desativar o Reach", function()
+MRPage:CreateButton("Desativar Reach", "Irá Desativar o Reach", function()
     RunSteppedMobile:Disconnect()
 end)
 
@@ -899,7 +807,9 @@ end)
 MRPage:CreateButton("Reach - 3", "Tamanho do Reach", function()
     DistanceReachMobile = 3
 end)
-MRPage:CreateButton("Reach - 3.5 ", "Tamanho do Reach", function()
+
+
+MRPage:CreateButton("Reach - 3.5", "Tamanho do Reach", function()
     DistanceReachMobile = 3.5
 end)
 
@@ -923,38 +833,12 @@ MRPage:CreateButton("Reach - 10", "Tamanho do Reach", function()
     DistanceReachMobile = 10
 end)
 
-TPPage:CreateLabel("Lugares Para Teleportar")
+TPPage:CreateLabel("Teleportar")
 
-TPPage:CreateButton("Teleportar Para a Bola", "Irá teletransportar você para Bola", function()
+TPPage:CreateButton("Teleportar para Bola", "Irá te teletransportar para bola", function()
 game.Players.LocalPlayer.Character:MoveTo(game.Workspace.TPSSystem.TPS.Position)
 end)
 
-TPPage:CreateButton("Teleportar Para o Centro", "Irá teletransportar você para o Centro do Mapa", function()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Lines.Line12.CFrame
-end)
-
-TPPage:CreateButton("Teleportar Para o Gol do Time Vermelho", "Irá teletransportar você para o Gol do Time Vermelho", function()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0.229434282, 13.2999945, -111.25293, -0.999964356, 6.47347465e-09, -0.00844059512, 5.92729865e-09, 1, 6.47332428e-08, 0.00844059512, 6.46809042e-08, -0.999964356)
-end)
-
-TPPage:CreateButton("Teleportar Para o Gol do Time Azul", "Irá teletransportar você para o Gol do Time Azul", function()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-0.337467283, 13.2999945, 113.940865, 0.999967039, 4.84168332e-08, 0.00811586808, -4.90094685e-08, 1, 7.28228073e-08, -0.00811586808, -7.32181604e-08, 0.999967039)
-end)
-
-TPPage:CreateButton("Teleportar Para o Spawn do Time Azul", "Irá teletransportar você para o Spawn do Time Azul", function()
-    local BlueSpawns = game.Workspace.BSpawns:GetChildren()
-
-local WayRandom = math.random(1, #BlueSpawns)
-    game.Players.LocalPlayer.Character:MoveTo(BlueSpawns[WayRandom].Position)
-end)
-
-TPPage:CreateButton("Teleportar Para o Spawn do Time Vermelho", "Irá teletransportar você para o Spawn do Time Vermelho", function()
-    local RedSpawns = game.Workspace.RSpawns:GetChildren()
-
-local WayRandom = math.random(1, #RedSpawns)
-    game.Players.LocalPlayer.Character:MoveTo(RedSpawns[WayRandom].Position)
-end)
-
-CRPage:CreateLabel("Scripts e Funções: Criado por SKinny")
+CRPage:CreateLabel("Scripts & Functions:Skinny")
 CRPage:CreateLabel("UI Library: Vanis UI Library")
-CRPage:CreateLabel("Ultima Atualização: 29.10.23")
+CRPage:CreateLabel("Updated:29.10.23")
