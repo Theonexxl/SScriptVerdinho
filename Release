@@ -907,30 +907,6 @@ if arg then
         end
     end)
     
-BPage:CreateToggle("Fly on the ball", "Fique fixo em cima da bola podendo voar com ela", function (arg)
-if arg then
--- Function to teleport a player to a destination
-local function teleportPlayerToDestination(player, destination)
-    local TPSSystem = game.ServerScriptService.TPSSystem -- Change this path to match your TPSSystem location
-    local destinationPosition = destination.Position
-
-    -- Teleport the player to the destination using TPSSystem
-    TPSSystem:TeleportPlayerToPosition(player, destinationPosition)
-
-    -- Tempo
-    wait(0.1)
-end
-
--- Example: Teleport a specific player to a destination in a loop
-local targetPlayer = game.Players.LocalPlayer -- Replace with the player you want to teleport
-local destination = game.Workspace.TPSSystem.TPS -- Replace with your destination
-
-while true do
-    teleportPlayerToDestination(targetPlayer, destination)
-end
-end
-end)
-
 BPage:CreateToggle("Colisão", "Colocar/Tirar Colisão da Bola", function(arg)
 if arg then
 game.Workspace.TPSSystem.TPS.CanCollide = false
