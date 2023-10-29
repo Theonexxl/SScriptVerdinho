@@ -182,7 +182,6 @@ local Window = library:CreateWindow("TPS Scripts", "Version:2.3", 10044538000)
 
 local Tab = Window:CreateTab("Scripts")
 
-
 local SPage = Tab:CreateFrame("Funções")
 local LPPage = Tab:CreateFrame("LocalPlayer")
 local BPage = Tab:CreateFrame("Ball")
@@ -308,7 +307,6 @@ end)
 
 LPPage:CreateLabel("Reach PC")
 LPPage:CreateLabel("Recomendado Usar entre 3-5")
-local RunStepped
 
 LPPage:CreateToggle("Reach", "Ativar Reach", function(arg)
 if arg then
