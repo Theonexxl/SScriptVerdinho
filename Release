@@ -178,7 +178,7 @@ local RootPart = Player.Character.HumanoidRootPart
 
 local library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Makesdri/uiLIB/main/UI-LIB'))()
 
-local Window = library:CreateWindow("TPS Scripts", "Version:2.3", 10044538000)
+local Window = library:CreateWindow("TPS Scripts", "Version:2.3", 6035053302)
 
 local Tab = Window:CreateTab("Scripts")
 
