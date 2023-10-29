@@ -190,15 +190,6 @@ local MRPage = Tab:CreateFrame("Mobile Reach")
 local TPPage = Tab:CreateFrame("Teleports")
 local CRPage = Tab:CreateFrame("Créditos")
 
-SPage:CreateToggle("Noite", "Deixa o jogo de noite tirando o lag do sol", function (arg)
-if arg then
-	Callback = function()
-		while true do
-			game.Lighting.TimeOfDay = "00:00:00"
-			wait(0.1)
-			end	
-end)
-
 SPage:CreateToggle("Auto-Rasteira", "Rasteira infinita [Persiste se morrer]",function (arg)
 if arg then
 _G.HoldGround = true
