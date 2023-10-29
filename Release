@@ -182,13 +182,22 @@ local Window = library:CreateWindow("TPS Scripts", "Version:2.3", 10044538000)
 
 local Tab = Window:CreateTab("Scripts")
 
+
 local SPage = Tab:CreateFrame("Funções")
 local LPPage = Tab:CreateFrame("LocalPlayer")
 local BPage = Tab:CreateFrame("Ball")
 local MRPage = Tab:CreateFrame("Mobile Reach")
 local TPPage = Tab:CreateFrame("Teleports")
-local VPage = Tab:CreateFrame("Visuais")
 local CRPage = Tab:CreateFrame("Créditos")
+
+SPage:CreateToggle("Noite", "Deixa o jogo de noite tirando o lag do sol", function (arg)
+if arg then
+	Callback = function()
+		while true do
+			game.Lighting.TimeOfDay = "00:00:00"
+			wait(0.1)
+			end	
+end)
 
 SPage:CreateToggle("Auto-Rasteira", "Rasteira infinita [Persiste se morrer]",function (arg)
 if arg then
@@ -231,7 +240,102 @@ loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/
 end
 end)
 
+SPage:CreateToggle("Ver chat privado e "/t" do outro time", "Aproveite esta nova funçaõ e Abuse" function (arg)
+if arg then
+EnabledChatLogger = true
+SpyOnMyself = true
+IsPublic = false
+IsPublicItalics = false
+ChatMessageProperties = {
+	Color = Color3.fromRGB(162,163,165); 
+	Font = Enum.Font.SourceSansBold;
+	TextSize = 18;
+}
+local StarterGui = game:GetService("StarterGui")
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer or Players:GetPropertyChangedSignal("LocalPlayer"):Wait() or Players.LocalPlayer
+local SayMessageRequest = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
+local OnMessageDoneFiltering = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering")
+local InstanceNUM = (_G.ChatLogger or 0) + 1
+_G.ChatLogger = InstanceNUM
+
+local function onChatted(plr, msg)
+	if _G.ChatLogger == InstanceNUM then
+		if plr == Player then
+			EnabledChatLogger = not EnabledChatLogger
+		elseif EnabledChatLogger and SpyOnMyself == true or plr ~= Player then
+			msg = msg:gsub("[\n\r]",''):gsub("\t",' '):gsub("[ ]+",' ')
+			local HiddenMSG = true
+			local Connection = OnMessageDoneFiltering.OnClientEvent:Connect(function(packet,channel)
+				if packet.SpeakerUserId == plr.UserId and packet.Message==msg:sub(#msg-#packet.Message+1) and (channel=="All" or (channel=="Team" and IsPublic == false)) then
+					HiddenMSG = false
+				end
+			end)
+			wait(0.2)
+			Connection:Disconnect()
+			if HiddenMSG and EnabledChatLogger then
+				if IsPublic then
+					SayMessageRequest:FireServer((IsPublicItalics and "/me " or '').."{SPY} [".. p.Name .."]: "..msg,"All")
+				else
+					ChatMessageProperties.Text = " [".. plr.Name .."]: "..msg
+					StarterGui:SetCore("ChatMakeSystemMessage", ChatMessageProperties)
+				end
+			end
+		end
+	end
+end
+
+for _,getplayers in ipairs(Players:GetPlayers()) do
+	getplayers.Chatted:Connect(function(msg) 
+	onChatted(getplayers, msg) 
+	end)
+end
+Players.PlayerAdded:Connect(function(plradded)
+	plradded.Chatted:Connect(function(msg) 
+	onChatted(plradded, msg) 
+	end)
+end)
+wait(3)
+local ChatFrame = Player.PlayerGui.Chat.Frame
+ChatFrame.ChatChannelParentFrame.Visible = true
+ChatFrame.ChatBarParentFrame.Position = ChatFrame.ChatChannelParentFrame.Position + UDim2.new(UDim.new(), ChatFrame.ChatChannelParentFrame.Size.Y)
+    else
+    EnabledChatLogger = false
+end
+end)
+
 LPPage:CreateLabel("Miscellaneous")
+
+LPPage:CreateButton("Remover Mapa", "Remove o Mapa do jogo deixando apenas o campo." function ()
+  --// REMOVE BILLBOARDGUI NAME, LEVEL AND INFORMATION --\\
+
+for i,v in pairs(game.Players.LocalPlayer.Character.Head:GetChildren()) do
+       if v:IsA("BillboardGui") then
+           v:Destroy()
+       end
+   end
+   
+--// VARIABLES, SERVICES --\\
+
+local HRP = game.Players.LocalPlayer.Character.HumanoidRootPart
+local LT = game.Players.LocalPlayer.Character.LowerTorso
+local OldCF = HRP.CFrame
+
+--// SCRIPTING --\\
+if game.Players.LocalPlayer.Character.PrimaryPart ~= HRP then
+    game.Players.LocalPlayer.Character.PrimaryPart = HRP
+end
+
+
+local NewRootMotor6D = LT:FindFirstChild("Root"):Clone()
+HRP.Parent = game.Workspace
+game.Players.LocalPlayer.Character.PrimaryPart = HRP
+game.Players.LocalPlayer.Character:MoveTo(Vector3.new(OldCF.X, 9e9, OldCF.Z))
+HRP.Parent = game.Players.LocalPlayer.Character
+wait(0.45)
+NewRootMotor6D.Parent = HRP
+HRP.CFrame = OldCF
+end)
 
 LPPage:CreateButton("Rejoin", "Sai e entra no mesmo Servidor", function()
     local plr = game.Players.LocalPlayer
@@ -286,6 +390,14 @@ _G.FR = true
     else
     _G.FR = false
 end
+end)
+
+LPPage:CreateButton("Remover BillboardGui", "Remove nome de usuário, nível e círculo vermelho/azul acima de sua cabeça" function ()
+ for i,v in pairs(game.Players.LocalPlayer.Character.Head:GetChildren()) do
+       if v:IsA("BillboardGui") then
+           v:Destroy()
+       end
+   end
 end)
 
 LPPage:CreateButton("Entrar no Time Azul", "Irá entrar no time azul mesmo estando cheio", function()
@@ -971,53 +1083,6 @@ TPPage:CreateButton("Teleportar Para o Spawn do Time Vermelho", "Irá teletransp
 
 local WayRandom = math.random(1, #RedSpawns)
     game.Players.LocalPlayer.Character:MoveTo(RedSpawns[WayRandom].Position)
-end)
-
-VPage:CreateLabel("Ball ESP")
-
-VPage:CreateToggle("Deixar a Bola Visivel 100%", "Permite que você veja normalmente e através das paredes", function(arg)
-if arg then
-local Highlight = Instance.new("Highlight", game.Workspace.TPSSystem.TPS)
-Highlight.FillColor = Color3.fromRGB(255, 255, 255)
-Highlight.FillTransparency = 0.2
-Highlight.OutlineColor = Color3.fromRGB(0, 255, 0)
-    else
-game.Workspace.TPSSystem.TPS.Highlight:Destroy()
-end
-end)
-
-
-VPage:CreateToggle("Box", "Cria uma Box em torno da Ball", function(arg)
-if arg then
-local Ball = game.Workspace.TPSSystem.TPS
-
-surfaces = {"Front", "Back", "Top", "Bottom", "Left", "Right"}
-        for i = 1, #surfaces do
-            local sgui = Instance.new("SurfaceGui", Ball)
-			sgui.Name = "BallESP"
-            sgui.AlwaysOnTop = true
-            sgui.Face = surfaces[i]
-            local frm = Instance.new("Frame", sgui)
-            frm.Size = UDim2.new(1,0,1,0)
-            frm.BackgroundColor3 = Color3.fromRGB(255, 250, 250)
-	frm.BackgroundTransparency = 0.25
-end
-    else
-    local Ball = game.Workspace.TPSSystem.TPS
-    for i,v in pairs(Ball:GetChildren()) do
-        if v.Name == "BallESP" or v.Name == "BallName" then
-        v:Destroy()
-end
-end
-end
-end)
-
-VPage:CreateLabel("Players ESP")
-
-local ESPz = loadstring(game:HttpGet("https://paste.ee/r/aFx08", true))()
-
-VPage:CreateToggle("ESP", "Toggles ESP", function(arg)
-ESPz:Toggle(arg)
 end)
 
 CRPage:CreateLabel("Scripts e Funções: Criado por SKinny")
