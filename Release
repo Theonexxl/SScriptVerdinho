@@ -178,7 +178,7 @@ local RootPart = Player.Character.HumanoidRootPart
 
 local library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Makesdri/uiLIB/main/UI-LIB'))()
 
-local Window = library:CreateWindow("TPS Scripts", "Version:2.3", 4699229471)
+local Window = library:CreateWindow("TPS Scripts", "Version:2.3", 10044538000)
 
 local Tab = Window:CreateTab("Scripts")
 
@@ -222,6 +222,12 @@ end
     
     else
         _G.StopBall = false
+end
+end)
+
+SPage:CreateToggle("Infinite Yield", "Comandos de Admin", function (arg)
+if arg then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 end
 end)
 
@@ -334,14 +340,14 @@ end)
 
 LPPage:CreateLabel("Configurações")
 
-LPPage:CreateBox("Replicar Lag e Ping (Use entre 0.01 e 0.02 para skills)",4639786996, function(arg)
+LPPage:CreateBox("Replicar Lag e Ping (Use entre 0.01 e 0.02 para skills)",10044538000, function(arg)
 settings():GetService("NetworkSettings").IncomingReplicationLag = tonumber(arg)
 end)
 
 LPPage:CreateLabel("Modificar Level e XP")
 LPPage:CreateLabel("Se sair do jogo terá que por novamente")
 
-LPPage:CreateBox("Level", 4640903162, function(arg)
+LPPage:CreateBox("Level", 10044538000, function(arg)
 local Targets
 	Targets = tonumber(arg)
 	wait(0.1)
@@ -358,7 +364,7 @@ mt.__index = function(a, b)
 end
 end)
 
-LPPage:CreateBox("XP", 4640903162, function(arg)
+LPPage:CreateBox("XP", 10044538000, function(arg)
 local Targetz
 	Targetz = tonumber(arg)
 	wait(0.1)
@@ -728,7 +734,7 @@ end)
 
 BPage:CreateLabel("Aumentar/Diminuir Tamanho da Bola")
 
-BPage:CreateBox("Aumentar/Diminuir", 4640903162, function(arg)
+BPage:CreateBox("Aumentar/Diminuir", 10044538000, function(arg)
     game.Workspace.TPSSystem.TPS.Size = Vector3.new(arg, arg, arg)
 end)
 
