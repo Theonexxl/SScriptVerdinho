@@ -182,7 +182,7 @@ local Window = library:CreateWindow("TPS Scripts", "Version:2.",15122932306)
 
 local Tab = Window:CreateTab("Scripts")
 
-local SPage = Tab:CreateFrame("Admin Comandos")
+local SPage = Tab:CreateFrame("Funções")
 local LPPage = Tab:CreateFrame("LocalPlayer")
 local BPage = Tab:CreateFrame("Ball")
 local MRPage = Tab:CreateFrame("Mobile Reach")
@@ -190,9 +190,18 @@ local TPPage = Tab:CreateFrame("Teleports")
 local VPage = Tab:CreateFrame("Visuais")
 local CRPage = Tab:CreateFrame("Créditos")
 
-SPage:CreateButton("Infinite Yield", " Use comandos de Admin com este script.",function (arg)
+SPage:CreateButton("Auto-Rasteira", "Rasteira infinita [Persiste se morrer]",function (arg)
 if arg then
-loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+_G.HoldGround = true
+while _G.HoldGround do
+wait()
+game:GetService("Players").LocalPlayer.Backpack.Ground.Value = true
+end
+    
+    else
+        _G.HoldGround = false
+        wait(0.1)
+        game:GetService("Players").LocalPlayer.Backpack.Ground.Value = false
 end
 end)
 
