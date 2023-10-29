@@ -178,7 +178,7 @@ local RootPart = Player.Character.HumanoidRootPart
 
 local library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Makesdri/uiLIB/main/UI-LIB'))()
 
-local Window = library:CreateWindow("TPS Scripts", "Version:2.",15122932306)
+local Window = library:CreateWindow("TPS Scripts", "Version:2.3",15122932306)
 
 local Tab = Window:CreateTab("Scripts")
 
@@ -202,6 +202,26 @@ end
         _G.HoldGround = false
         wait(0.1)
         game:GetService("Players").LocalPlayer.Backpack.Ground.Value = false
+end
+end)
+
+SPage:CreateButton("Parar a Bola", "Irá para a bola até que você morra [Precisa estar perto dela]", function (arg)
+if arg then
+_G.StopBall = true
+while _G.StopBall do
+wait()
+for i = 1, 10 do
+local A_1 = game:GetService("Workspace").TPSSystem.TPS
+local A_2 = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+local A_3 = 0
+local A_4 = Vector3.new(4000000, 0, 4000000)
+local Event = game:GetService("Workspace").FE.Actions.KickG1
+Event:FireServer(A_1, A_2, A_3, A_4)
+end
+end
+    
+    else
+        _G.StopBall = false
 end
 end)
 
