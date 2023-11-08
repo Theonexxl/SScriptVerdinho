@@ -178,7 +178,7 @@ local RootPart = Player.Character.HumanoidRootPart
 
 local library = loadstring(game:HttpGet('https://raw.githubusercontent.com/yDragonUw/uiLIB/main/UI-LIB'))()
 
-local Window = library:CreateWindow("Skinny HUB", "Version:2.6", 10044538000)
+local Window = library:CreateWindow("TPS Script Free", "Version:2.7", 10044538000)
 
 local Tab = Window:CreateTab("Scripts")
 
