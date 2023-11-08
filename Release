@@ -187,7 +187,7 @@ local BPage = Tab:CreateFrame("Ball")
 local MRPage = Tab:CreateFrame("Mobile Reach")
 local TPPage = Tab:CreateFrame("Teleports")
 local CRPage = Tab:CreateFrame("Atualizaçoes")
-local SPage = Tab:CreateFrame("Atalhos")
+
 LPPage:CreateLabel("Miscellaneous")
 
 LPPage:CreateButton("Rejoin The Server", "Sai e entra no mesmo servidor [Servidor Privado NOT WORK]", function()
@@ -599,15 +599,3 @@ CRPage:CreateLabel("Scripts & Functions:Skinny")
 CRPage:CreateLabel("UI Library:Vanis UI lib [Modificado por Skinny]")
 CRPage:CreateLabel("Ultima Atualização: 08.11.23")
 CRPage:CreateLabel("Noticia Sobre o Script:Proxima Atualização virá novas funções")
-
-SPage:CreateLabel("Atalho Para Outros Scripts")
-
-SPage:CreateToggle("Imperium TPS", "Atalho para o script de TPS", function(arg)
-if arg then
-loadstring(game:HttpGet"https://raw.githubusercontent.com/DDIBASAAIB/tpsfreescript/main/obfsctpsfree.lua")() 
-end)
-
-SPage:CreateToggle("Hussien Hub", "Atalho para o script de TPS", function(arg)
-if arg then
-loadstring(game:HttpGet('https://raw.githubusercontent.com/hussain1323232234/My-Scripts/main/Street%20Soccer'))()
-end)
