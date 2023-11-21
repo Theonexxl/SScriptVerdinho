@@ -1,20 +1,20 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
-local Window = OrionLib:MakeWindow({Name = "Skinny Hub", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+local Window = OrionLib:MakeWindow({Name = ".", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
-local  ScriptTab = Window:MakeTab({
-    Name = "Script",
+local  CombatTab = Window:MakeTab({
+    Name = "Skinny script",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
-local Section = ScriptTab:AddSection({
-    Name = "Scripts Abaixo"
+local Section = CombatTab:AddSection({
+    Name = "Script"
 })
 
-    ScriptTab:AddButton({
-    Name = "Clique Aqui para abrir o script",
+CombatTab:AddButton({
+    Name = "Clique aqaui para abrir o script",
     Callback = function()
            loadstring(game:HttpGet("https://raw.githubusercontent.com/yDragonUw/fsdf/main/RedScriptByDragon"))()
       end
-})
+}
