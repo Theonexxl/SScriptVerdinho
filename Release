@@ -3,18 +3,46 @@ local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shl
 local Window = OrionLib:MakeWindow({Name = "Skinny Hub", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
 local  CombatTab = Window:MakeTab({
-    Name = "Combat",
+    Name = "Script",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
 local Section = CombatTab:AddSection({
-    Name = "Combat"
+    Name = "Scripts Abaixo"
 })
 
 CombatTab:AddButton({
     Name = "Clique Aqui para abrir o script",
     Callback = function()
            loadstring(game:HttpGet("https://raw.githubusercontent.com/yDragonUw/fsdf/main/RedScriptByDragon"))()
+      end
+})
+
+CombatTab:AddButton({
+    Name = "Fake 250-290ms",
+    Callback = function()
+        ocal PerformanceStats = game:GetService("CoreGui"):WaitForChild("RobloxGui"):WaitForChild("PerformanceStats")
+local PingLabel
+
+for _, Child in ipairs(PerformanceStats:GetChildren()) do
+    if Child.StatsMiniTextPanelClass.TitleLabel.Text == "Ping" then
+        PingLabel = Child.StatsMiniTextPanelClass.ValueLabel
+        break
+    end
+end
+
+local text = "270.00 ms" -- Initialize with a value between 250 ms and 296 ms with two decimal places
+PingLabel:GetPropertyChangedSignal("Text"):Connect(function()
+    PingLabel.Text = text
+end)
+PingLabel.Text = text
+
+while true do
+    local randomValue = math.random(25000, 29600) / 100.0 -- Generate random ping value between 250 ms and 296 ms with two decimal places
+    text = string.format("%.2f ms", randomValue)
+    
+    PingLabel.Text = text
+    wait(1) -- Wait for 1 second before updating again
       end
 })
