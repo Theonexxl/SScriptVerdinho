@@ -22,7 +22,7 @@ CombatTab:AddButton({
 CombatTab:AddButton({
     Name = "Fake 250-290ms",
     Callback = function()
-        ocal PerformanceStats = game:GetService("CoreGui"):WaitForChild("RobloxGui"):WaitForChild("PerformanceStats")
+        local PerformanceStats = game:GetService("CoreGui"):WaitForChild("RobloxGui"):WaitForChild("PerformanceStats")
 local PingLabel
 
 for _, Child in ipairs(PerformanceStats:GetChildren()) do
