@@ -1,1 +1,27 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
+local Window = OrionLib:MakeWindow({Name = ".", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+
+local ScriptTab = Window:MakeTab({
+    Name = "Scripts",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local Section = ScriptTab:AddSection({
+    Name = "Scripts TPS Street Soccer I By Skinny"
+})
+
+ScriptTab:AddButton({
+    Name = "Script Functions Anti Ban",
+    Callback = function()
+           loadstring(game:HttpGet("https://raw.githubusercontent.com/Skinny3z/ScriptTab1/main/..."))()
+      end
+})
+
+ScriptTab:AddButton({
+    Name = "Complete Script",
+    Callback = function()
+           loadstring(game:HttpGet('https://raw.githubusercontent.com/Skinny3z/ScriptTab2/main/....'))()
+      end
+})
